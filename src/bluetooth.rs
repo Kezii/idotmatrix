@@ -1,4 +1,3 @@
-use std::thread;
 use std::time::Duration;
 
 use btleplug::api::{Central, Characteristic, Manager as _, Peripheral as _, WriteType, ScanFilter};
@@ -16,8 +15,7 @@ lazy_static! {
 async fn find_device(central: &Adapter) -> Option<Peripheral> {
     central.start_scan(ScanFilter::default()).await.unwrap();
 
-    thread::sleep(Duration::from_secs(2));
-
+    tokio::time::sleep(Duration::from_secs(2)).await;
     for p in central.peripherals().await.unwrap() {
         if p.properties()
             .await
