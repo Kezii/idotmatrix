@@ -1,5 +1,7 @@
 # idotmatrix
 
+![photo](https://github.com/Kezii/idotmatrix/assets/3357750/2803a7a8-2352-4b11-873a-482f748ef282)
+
 Rust implementation of a driver for an iDotMatrix bluetooth display
 
 based on https://github.com/derkalle4/python3-idotmatrix-client
