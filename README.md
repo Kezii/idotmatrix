@@ -20,6 +20,7 @@ Options:
       --set-pixel <SET_PIXEL>                  Pixel in format x,y,#ffffff
       --image-mode <IMAGE_MODE>                
       --upload-png <UPLOAD_PNG>                Path to png file
+      --upload-gif <UPLOAD_GIF>                Path to gif file
       --full-screen-color <FULL_SCREEN_COLOR>  Color in hex format, e.g. #ffffff
       --screen-brightness <SCREEN_BRIGHTNESS>  Brightness in percent, e.g. 100
       --countdown-start <COUNTDOWN_START>      Countdown in seconds

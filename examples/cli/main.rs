@@ -25,6 +25,9 @@ struct Args {
     /// Path to png file
     #[arg(long)]
     upload_png: Option<PathBuf>,
+    /// Path to gif file
+    #[arg(long)]
+    upload_gif: Option<PathBuf>,
     /// Color in hex format, e.g. #ffffff
     #[arg(long, value_parser = parse_color_string)]
     full_screen_color: Option<IDMColor>,
@@ -73,6 +76,13 @@ async fn main() {
         let png_data = std::fs::read(png).unwrap();
         bluetooth
             .send_command(&IDMCommand::UploadPng(png_data))
+            .await;
+    }
+
+    if let Some(gif) = cli.upload_gif {
+        let gif_data = std::fs::read(gif).unwrap();
+        bluetooth
+            .send_command(&IDMCommand::UploadGif(gif_data))
             .await;
     }
 
