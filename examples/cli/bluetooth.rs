@@ -1,8 +1,12 @@
 use std::time::Duration;
 
-use btleplug::api::{Central, Characteristic, Manager as _, Peripheral as _, WriteType, ScanFilter};
+use btleplug::api::{
+    Central, Characteristic, Manager as _, Peripheral as _, ScanFilter, WriteType,
+};
 use btleplug::platform::{Adapter, Manager, Peripheral};
 
+use idotmatrix::IDMCommand;
+use log::{debug, info};
 use uuid::Uuid;
 
 lazy_static! {
@@ -60,7 +64,7 @@ impl BluetoothWrapper {
 
         let device = find_device(&adapter).await.unwrap();
 
-        println!("Found device: {:?}", device.properties().await.unwrap());
+        info!("Found device: {:?}", device.address());
 
         device.connect().await.unwrap();
 
@@ -69,15 +73,13 @@ impl BluetoothWrapper {
         let chars = device.characteristics();
         let write_char = find_characteristic(&chars, *UUID_WRITE_DATA);
 
-        println!("Found write characteristic: {:#?}", write_char);
-
         Self {
             device,
             write_char: write_char.clone(),
         }
     }
 
-    pub async fn send_command(&self, data: &crate::commands::Command) {
+    pub async fn send_command(&self, data: &IDMCommand) {
         let chunks = data.to_bytes();
         let chunks = chunks.chunks(20);
 
@@ -88,7 +90,7 @@ impl BluetoothWrapper {
         };
 
         for chunk in chunks {
-            println!("Sending: {:x?}", chunk);
+            debug!("Sending: {:x?}", chunk);
 
             self.device
                 .write(&self.write_char, chunk, write_type)
